@@ -1,0 +1,6 @@
+D:\.NetProject\Lab1\bin\Debug\Lab1.exe.config
+D:\.NetProject\Lab1\bin\Debug\Lab1.exe
+D:\.NetProject\Lab1\bin\Debug\Lab1.pdb
+D:\.NetProject\Lab1\obj\Debug\Lab1.csprojAssemblyReference.cache
+D:\.NetProject\Lab1\obj\Debug\Lab1.exe
+D:\.NetProject\Lab1\obj\Debug\Lab1.pdb
