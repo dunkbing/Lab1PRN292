@@ -11,7 +11,9 @@ namespace Lab1 {
 
         }
         static void Main(string[] args) {
+            //create a department
             Department<string, Employee> department = new Department<string, Employee>();
+            //events
             department.OnNumberOfMembersChanged += (sender, e) => {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"number of members changed to {e.Members.Count}");
@@ -26,21 +28,26 @@ namespace Lab1 {
             department.Name = "Department of Testing";
             department.Manager = new Tester(3, "Hoang", 1200, 10);
             department.Members = new List<Employee>();
+            //add member
             department.AddMember(new Tester(1, "Trung", 1000, 7));
             department.AddMember(new Tester(4, "Lan", 800, 5));
-            department.AddMember(new Tester(2, "Chinh", 850, 4));
+            department.AddMember(new Tester(5, "Chinh", 900, 3));
+            department.AddMember(new Tester(2, "Chinh2", 850, 4));
             Console.WriteLine("before sorting:");
             department.Display();
             Console.WriteLine("after sorting by id:");
             department.Members.Sort(Employee.Empty);
             department.Display();
+            //remove member
+            department.RemoveMember(department.Members[2]);
             Console.WriteLine("after sorting by name:");
             department.Members.Sort(delegate(Employee x, Employee y) {
                 return x.Name.CompareTo(y.Name);
             });
             department.Display();
-            //department.AddMember(new Tester());
+            //changed manager
             department.Manager = new Tester(1, "Hoang2", 1200, 10);
+            //read and write to file
             department.WriteToFile("../../department.txt");
             department.ReadFromFile("../../department.txt");
             //department.ManagerChanged += (s, e) => Console.WriteLine("Manager changed to "+e.Manager.Name);
