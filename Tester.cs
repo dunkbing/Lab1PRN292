@@ -28,11 +28,6 @@ namespace Lab1 {
         public override int GetHashCode() {
             return base.GetHashCode();
         }
-        public override Employee CreateEmployee() {
-            Employee e = base.CreateEmployee();
-            Console.WriteLine("Enter exp:");
-            int exp = Convert.ToInt32(Console.ReadLine());
-            return new Tester(e.ID, e.Name, e.Salary, exp);
-        }
+        
     }
 }

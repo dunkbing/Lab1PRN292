@@ -41,17 +41,10 @@ namespace Lab1 {
         }
 
         public int Compare(Employee x, Employee y) {
-            return x.ID - y.ID;
+            return x.ID.CompareTo(y.ID);
         }
-
-        public virtual Employee CreateEmployee() {
-            Console.WriteLine("Enter ID:");
-            int id = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Enter name:");
-            string name = Console.ReadLine();
-            Console.WriteLine("Enter salary:");
-            double salary = Convert.ToDouble(Console.ReadLine());
-            return new Employee(id, name, salary);
+        public static Employee Empty {
+            get { return new Employee(0, null, 0); }
         }
     }
 }

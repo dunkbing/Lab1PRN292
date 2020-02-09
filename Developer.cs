@@ -31,11 +31,6 @@ namespace Lab1 {
             Developer d = obj as Developer;
             return base.Equals(obj) && this.Major == d.Major;
         }
-        public override Employee CreateEmployee() {
-            Employee e = base.CreateEmployee();
-            Console.WriteLine("Enter major:");
-            string major = Console.ReadLine();
-            return new Developer(e.ID, e.Name, e.Salary, major);
-        }
+        
     }
 }

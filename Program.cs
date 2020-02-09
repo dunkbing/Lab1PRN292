@@ -12,17 +12,37 @@ namespace Lab1 {
         }
         static void Main(string[] args) {
             Department<string, Employee> department = new Department<string, Employee>();
+            department.OnNumberOfMembersChanged += (sender, e) => {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"number of members changed to {e.Members.Count}");
+                Console.ResetColor();
+            };
+            department.ManagerChanged += (m) => {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"manager changed to {m.Name}");
+                Console.ResetColor();
+            };
             department.Code = "D01";
             department.Name = "Department of Testing";
-            department.Manager = new Tester(1, "Hoang", 1200, 10);
+            department.Manager = new Tester(3, "Hoang", 1200, 10);
             department.Members = new List<Employee>();
-            department.Members.Add(new Tester(2, "Trung", 1000, 7));
-            department.Members.Add(new Tester(3, "Lan", 800, 5));
-            department.Members.Add(new Tester(4, "Chinh", 850, 4));
-            department.Members.Add(new Tester());
+            department.AddMember(new Tester(1, "Trung", 1000, 7));
+            department.AddMember(new Tester(4, "Lan", 800, 5));
+            department.AddMember(new Tester(2, "Chinh", 850, 4));
+            Console.WriteLine("before sorting:");
+            department.Display();
+            Console.WriteLine("after sorting by id:");
+            department.Members.Sort(Employee.Empty);
+            department.Display();
+            Console.WriteLine("after sorting by name:");
+            department.Members.Sort(delegate(Employee x, Employee y) {
+                return x.Name.CompareTo(y.Name);
+            });
+            department.Display();
+            //department.AddMember(new Tester());
+            department.Manager = new Tester(1, "Hoang2", 1200, 10);
             department.WriteToFile("../../department.txt");
             department.ReadFromFile("../../department.txt");
-            department.Display();
             //department.ManagerChanged += (s, e) => Console.WriteLine("Manager changed to "+e.Manager.Name);
             //department.Manager = new Employee(8, "binh", 1000);
             /*Department<string, Employee> dep = new Department<string, Employee>();

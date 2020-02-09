@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace Lab1 {
     
-    public delegate void NumberOfMembersChanged();
-    public delegate void ManagerChangedHandler();
+    //public delegate void NumberOfMembersChanged();
+    
     [Serializable]
     class Department<T, G>:ICanDisplay {
-        public event ManagerChangedHandler ManagerChanged;
-       
+        public delegate void OnManagerChangedHandler(G manager);
+        public event OnManagerChangedHandler ManagerChanged;
+        public EventHandler<DepartmentEventArgs<G>> OnNumberOfMembersChanged = null;
+        
+        
         public T Code { get; set; }
         public string Name { get; set; }
         private G manager;
@@ -23,10 +26,10 @@ namespace Lab1 {
             get { return manager; }
             set {
                 try {
-                    if (!manager.Equals(value)) ManagerChanged();
-                    manager = value;
+                    if (!manager.Equals(value)) ManagerChanged(value);
                 } catch(NullReferenceException e) {
                     //Console.WriteLine(e.StackTrace);
+                    ManagerChanged(value);
                 }
                 finally {
                     manager = value;
@@ -81,6 +84,7 @@ namespace Lab1 {
         }
         public void AddMember(G item) {
             try {
+                if (OnNumberOfMembersChanged != null) OnNumberOfMembersChanged(this, new DepartmentEventArgs<G>(Manager, Members));
                 Members.Add(item);
             }
             catch (NullReferenceException e) {
@@ -100,7 +104,7 @@ namespace Lab1 {
             
         }
 
-        //Events
+        
 
     }
 }
