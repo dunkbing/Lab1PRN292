@@ -9,25 +9,39 @@ using System.Threading.Tasks;
 
 namespace Lab1 {
     
-    public delegate void OnNumberOfMembersChanged();
+    public delegate void NumberOfMembersChanged();
+    public delegate void ManagerChangedHandler();
     [Serializable]
     class Department<T, G>:ICanDisplay {
-        public event EventHandler<DepartmentEventArgs<G>> ManagerChanged;
+        public event ManagerChangedHandler ManagerChanged;
        
         public T Code { get; set; }
         public string Name { get; set; }
         private G manager;
+        private List<G> members;
         public G Manager {
             get { return manager; }
             set {
-                var handle = ManagerChanged as EventHandler<DepartmentEventArgs<G>>;
-                if(handle != null && !manager.Equals(value)) {
-                    handle(this, new DepartmentEventArgs<G>(value, Members));
+                try {
+                    if (!manager.Equals(value)) ManagerChanged();
+                    manager = value;
+                } catch(NullReferenceException e) {
+                    //Console.WriteLine(e.StackTrace);
                 }
-                manager = value;
+                finally {
+                    manager = value;
+                }
             }
         }
-        public List<G> Members { get; set; }
+        protected virtual void OnManagerChanged(DepartmentEventArgs<G> e) {
+
+        }
+        public List<G> Members {
+            get { return members; }
+            set {
+                members = value;
+            }
+        }
 
         //Methods
         public void ReadFromFile(string fileName) {
@@ -47,6 +61,7 @@ namespace Lab1 {
                 var bformatter = new BinaryFormatter();
                 bformatter.Serialize(stream, this);
                 stream.Close();
+                Console.WriteLine("file written successfully");
             }
         }
 
@@ -76,10 +91,13 @@ namespace Lab1 {
             Members.Remove(item);
         }
         public void Display() {
-            Console.WriteLine(string.Format("{0}\n{1}\n{2}", Code, Name, Manager));
-            foreach (G item in Members) {
-                Console.WriteLine(item);
+            Console.WriteLine($"{Code}\n{Name}\n{Manager}");
+            if (Members != null) {
+                foreach (G item in Members) {
+                    Console.WriteLine(item);
+                }
             }
+            
         }
 
         //Events

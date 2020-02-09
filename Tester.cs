@@ -11,8 +11,9 @@ namespace Lab1 {
         public Tester(int id, string name, double salary, int exp):base(id, name, salary) {
             Exp = exp;
         }
-        public Tester() {
-
+        public Tester():base() {
+            Console.WriteLine("Enter exp:");
+            Exp = Convert.ToInt32(Console.ReadLine());
         }
         public override double GetSalary() {
             return base.Salary * (12 + Exp * 0.2);
@@ -29,6 +30,7 @@ namespace Lab1 {
         }
         public override Employee CreateEmployee() {
             Employee e = base.CreateEmployee();
+            Console.WriteLine("Enter exp:");
             int exp = Convert.ToInt32(Console.ReadLine());
             return new Tester(e.ID, e.Name, e.Salary, exp);
         }

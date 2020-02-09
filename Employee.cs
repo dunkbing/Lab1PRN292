@@ -17,7 +17,12 @@ namespace Lab1 {
             Salary = salary;
         }
         public Employee() {
-
+            Console.WriteLine("Enter ID:");
+            ID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter name:");
+            Name = Console.ReadLine();
+            Console.WriteLine("Enter salary:");
+            Salary = Convert.ToDouble(Console.ReadLine());
         }
         public void Display() {
             Console.WriteLine(this);
